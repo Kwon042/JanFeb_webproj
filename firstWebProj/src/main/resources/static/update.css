@@ -1,0 +1,75 @@
+/* 전체 페이지의 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* 헤더 스타일 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+h2 {
+    text-align: left;
+    margin-left: 30px;
+    color: #444;
+}
+
+/* 폼 스타일 */
+form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* 레이블과 입력창 스타일 */
+label {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 취소 링크 스타일 */
+a {
+    text-decoration: none;
+    color: #f44336;
+    font-size: 1rem;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}

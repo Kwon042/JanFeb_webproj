@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 성공</title>
+    <link rel="stylesheet" href="/login_success.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        function confirmLogout() {
+            return confirm("로그아웃 하시겠습니까?");
+        }
+    </script>
+</head>
+<body>
+<h1 class="site-title">🎶 ~ MUSIC IS MY LIFE ~ 🎶</h1>
+<div>
+    <div th:if="${loggedInUser != null}">
+        <p>
+            안녕하세요, <strong class="username" th:text="${loggedInUser.username}">[사용자 이름]</strong> 님!😊 오늘도 좋은 하루 되세요!
+        </p>
+    </div>
+    <div class="icon-container">
+        <span class="icon-box">
+            <a href="/user/logout" class="logout-link" onclick="return confirmLogout();">로그아웃</a>
+        </span>
+        <span class="icon-box">
+            <a href="/free/list" class="button">게시판 바로가기</a>
+        </span>
+    </div>
+</div>
+
+<!--<a href="/free/list" >게시판 바로가기</a>-->
+
+</body>
+</html>

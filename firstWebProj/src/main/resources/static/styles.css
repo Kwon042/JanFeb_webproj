@@ -1,0 +1,102 @@
+/* 기본 스타일 설정 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 50px;
+    color: #2c3e50;
+}
+
+/* 링크 스타일 */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 헤더와 메뉴 */
+div {
+    margin: 20px;
+}
+
+div a {
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+/* 로그인 여부에 따른 표시 */
+div th\\:if {
+    margin-top: 20px;
+}
+
+div th\\:if p {
+    font-size: 16px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #3498db;
+    color: white;
+}
+
+table td {
+    background-color: #f9f9f9;
+}
+
+table tr:nth-child(even) td {
+    background-color: #ecf0f1;
+}
+
+table tr:hover td {
+    background-color: #dfe6e9;
+}
+
+/* 비어있는 게시글에 대한 처리 */
+table tr th\\:if {
+    text-align: center;
+    font-size: 18px;
+    color: #e74c3c;
+    padding: 20px 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    table th, table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    div a {
+        font-size: 14px;
+    }
+}

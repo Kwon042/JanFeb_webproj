@@ -1,0 +1,84 @@
+/* 기본 스타일 설정 */
+body {
+    font-family: 'Roboto', sans-serif; /* 가져온 폰트 적용 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    height: 100vh; /* 화면 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    background-color: #f0f4f8; /* 배경색 설정 (필요 시 변경) */
+}
+
+.center-container {
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-top: 20px; /* 위쪽 여백 추가 (필요 시 조절) */
+}
+
+a {
+    display: inline-block; /* 링크를 인라인 블록으로 설정 */
+    margin: 10px 15px; /* 링크 간의 여백 추가 */
+    font-size: 1.2em; /* 링크 글씨 크기 */
+    color: #007bff; /* 링크 색상 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+}
+
+a:hover {
+    text-decoration: underline; /* 마우스 오버 시 밑줄 */
+}
+
+/* 전체 컨테이너 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 페이지 제목 스타일 */
+h1 {
+    font-family: 'Roboto', sans-serif; /* 가져온 폰트 적용 */
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* 로그인/회원가입 링크 스타일 */
+div a {
+    text-decoration: none;
+    font-size: 1.1em;
+    color: #007BFF;
+    margin: 10px 15px;
+    padding: 10px 20px;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 로그인/회원가입 링크 호버 효과 */
+div a:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+/* 로그인/회원가입 버튼을 둘로 나누어 배치 */
+div {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* 전체 body 배경색 */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.site-title {
+    font-size: 2.5em; /* 글씨 크기 */
+    font-weight: bold; /* 글씨 굵게 */
+    color: #2b2d42; /* 제목 색상 */
+    text-align: center; /* 중앙 정렬 */
+    margin: 50px 0; /* 위아래 여백 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}

@@ -1,0 +1,197 @@
+/* 기본 스타일 설정 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 링크 스타일 */
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 내비게이션 바 */
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* 메시지 스타일 */
+.message {
+    color: #ff0000;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* 테이블 스타일 */
+table {
+    border-collapse: collapse; /* 테두리 겹치지 않게 설정 */
+    width: 100%; /* 테이블 너비 설정 */
+    background-color: #E0E0E0; /* 진한 그레이 배경색 */
+}
+
+th, td {
+    border: 1px solid #000; /* 검정색 선 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    padding: 8px; /* 셀 안쪽 여백 */
+}
+
+th {
+    background-color: #a9a9a9; /* 헤더 배경색 - 더 진한 그레이 */
+    color: #000; /* 헤더 글씨 색상 */
+}
+/* 목록 제목 스타일 */
+td a {
+    color: #556B2F; /* 제목 글씨 색상 변경 */
+}
+
+td a:hover {
+    text-decoration: underline; /* 제목 링크에 마우스 오버 시 밑줄 */
+}
+
+tr:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* 마우스 오버 시 행 배경색 변경 */
+}
+
+/* 버튼 스타일 */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn.logout {
+    background-color: #dc3545; /* 로그아웃 버튼 색상 */
+}
+
+.btn.logout:hover {
+    background-color: #c82333; /* 로그아웃 버튼 오버 시 색상 */
+}
+
+.btn:hover {
+    background-color: #218838; /* 다른 버튼 오버 시 색상 */
+}
+
+/* 사이트 제목 스타일 */
+.site-title {
+    font-size: 2.5em; /* 글씨 크기 */
+    font-weight: bold; /* 글씨 굵게 */
+    color: #2b2d42; /* 제목 색상 */
+    text-align: center; /* 중앙 정렬 */
+    margin: 50px 0; /* 위아래 여백 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+/* 아이콘 컨테이너 스타일 */
+.icon-container {
+    display: flex;
+    justify-content: space-between; /* 아이콘을 양쪽으로 배치 */
+    align-items: center; /* 수직 정렬 */
+    margin: 20px; /* 여백 */
+}
+
+/* 아이콘 박스 스타일 */
+.icon-box {
+    background-color: transparent; /* 박스 배경 색상을 투명으로 설정 */
+}
+
+/* 링크 스타일 */
+.icon-box a {
+    display: inline-block; /* 인라인 블록으로 설정 */
+    color: #007bff; /* 글씨 색상 */
+    border: 2px solid #007bff; /* 테두리 색상 */
+    padding: 10px 15px; /* 패딩 */
+    border-radius: 5px; /* 둥근 모서리 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+    transition: background-color 0.3s, color 0.3s; /* 배경 색상 및 글자 색상 전환 효과 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함해 전체 크기 계산 */
+}
+
+/* 마우스 오버 효과 */
+.icon-box a:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* 텍스트 색상보다 옅은 배경 색상으로 변경 */
+    color: #007bff; /* 마우스 오버 시 텍스트 색상 변경 */
+    transform: scale(1); /* 크기가 커지지 않게 설정 */
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+/* 특정 테두리 색상 설정 */
+.icon-box.logout {
+    border: 2px solid #d9534f; /* 로그아웃 박스의 빨간색 테두리 */
+}
+
+.icon-box.button {
+    border: 2px solid #007bff; /* 다른 버튼의 파란색 테두리 */
+}
+
+/* 마우스 오버 효과 */
+.icon-box:hover {
+    background-color: #ADD8E6; /* 마우스 오버 시 배경 색상 변경 */
+}
+
+/* 글쓰기 버튼 스타일 */
+.create-box {
+    margin-left: auto; /* 오른쪽으로 이동 */
+}
+
+/* 글쓰기 버튼 스타일 */
+.create-box a {
+    color: #556B2F; /* 글쓰기 버튼의 글씨 색상 */
+    border: 2px solid #556B2F; /* 글쓰기 버튼의 테두리 색상 */
+    padding: 10px 20px; /* 패딩 */
+    border-radius: 5px; /* 둥근 모서리 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+    transition: background-color 0.3s, color 0.3s; /* 배경 색상 및 글자 색상 전환 효과 */
+}
+
+.create-box a:hover {
+    background-color: rgba(85, 107, 47, 0.1); /* 텍스트 색상보다 옅은 배경 색상으로 변경 */
+    color: #556B2F; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+.logout-box {
+    margin-left: auto; /* 오른쪽으로 이동 */
+}
+
+.logout-box a {
+    color: #d9534f; /* 빨간색 글씨 */
+    border: 2px solid #d9534f; /* 빨간색 테두리 */
+    padding: 10px 20px; /* 패딩 */
+    border-radius: 5px; /* 둥근 모서리 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+    transition: background-color 0.3s, color 0.3s; /* 배경 색상 및 글자 색상 전환 효과 */
+}
+
+.logout-box a:hover {
+    background-color: rgba(217, 83, 79, 0.1); /* 마우스 오버 시 배경 색상 */
+    color: #c9302c; /* 마우스 오버 시 텍스트 색상 변경 */
+    border-radius: 5px; /* 둥근 모서리 */
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+    <link rel="stylesheet" href="/detail.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<h1 class="site-title">🎧 뮤직 플레이리스트 공유 사이트 🎧</h1>
+
+<div class="post-card">
+    <h3 style="text-align: center;" th:text="${post.title}">제목: </h3>
+    <p><strong>작성자:</strong> <span th:text="${post.author.username}">작성자</span></p>
+    <p><strong>작성일:</strong> <span th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">작성일</span></p>
+    <p><strong>내용:</strong> <span th:text="${post.content}">내용</span></p>
+
+    <p><strong>업로드한 파일:</strong></p>
+    <ul>
+<!--    파일의 유뮤: 유 >>-->
+        <li th:each="file : ${uploadedFiles}">
+            <span th:text="${file}"></span>
+            <audio controls>
+                <source th:src="@{/play/{filename}(filename=${file})}" type="audio/mpeg" />
+                Your browser does not support the audio element.
+            </audio>
+        </li>
+<!--    파일의 유무: 무 >>-->
+        <p th:if="${#lists.isEmpty(uploadedFiles)}">**업로드된 파일이 없습니다.</p>
+    </ul>
+</div>
+
+<div class="post-card" th:if="${loggedInUser != null}">
+    <div th:if="${post.author != null and loggedInUser.id == post.author.id}">
+        <a th:href="@{/free/update/{id}(id=${post.id})}">수정</a>
+        <a th:href="@{/free/delete/{id}(id=${post.id})}"
+           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+    </div>
+    <div th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'Role.ADMIN'}">
+        <a th:href="@{/free/delete/{id}(id=${post.id})}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제 (Admin)</a>
+    </div>
+</div>
+
+<div class="post-card">
+    <h4 class="comment-title" th:text="'댓글 ' + ${#lists.size(comments)}"></h4>
+    <ul>
+        <!-- 댓글이 없을 때 문구 추가 -->
+        <p th:if="${#lists.isEmpty(comments)}">댓글이 없습니다.</p>
+        <div th:each="comment : ${comments}">
+            <div class="comment-card">
+                <p class="comment-author">♬ <span th:text="${comment.author.username}">작성자</span></p>
+                <p class="comment-content" th:text="${comment.comment}"></p>
+                <small class="comment-date" th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}">작성일</small>
+
+                <!-- 댓글 작성자와 로그인한 사용자가 동일할 경우 수정 / 삭제 버튼 보임 -->
+                <div class="comment-actions" th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'Role.ADMIN'}">
+                    <!--<button type="button" class="btn btn-warning" onclick="editComment(${comment.id})">수정 원본</button>-->
+                    <button type="button" class="btn btn-warning"
+                            th:onclick="'editComment(event, ' + ${comment.id} + ')'">수정</button>
+                    <form th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+                    </form>
+                </div>
+
+                <!-- 댓글 수정을 원할 시에 그 화면에서 댓글 수정이 이루어지게
+                <div id="edit-comment-${comment.id}" style="display:none;">
+                    <form th:action="@{/comment/edit/{commentId}(commentId=${comment.id})}" method="post" class="edits-comment-form">
+                        <textarea name="comment" id="comment-text-${comment.id}" rows="4" required th:text="${comment.comment}"></textarea>
+                        <button type="submit" class="btn btn-outline-primary">수정 완료</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="cancelEdit(${comment.id})">취소</button>
+                    </form>
+                </div> -->
+
+                <div th:id="'edit-comment-' + ${comment.id}" style="display:none;">
+                    <form th:action="@{/comment/edit/{commentId}(commentId=${comment.id})}" method="post" class="edits-comment-form">
+<!--                        <textarea name="comment" id="comment-text-${comment.id}" rows="4" required th:text="${comment.comment}"></textarea>-->
+                        <textarea name="newComment" rows="2" required th:text="${comment.comment}"></textarea>
+                        <button type="submit" class="btn btn-warning">수정</button>
+                        <button type="button" class="btn btn-danger" th:onclick="'cancelEdit(' + ${comment.id} + ')'">취소</button>
+                    </form>
+                </div>
+
+                <!--대댓글 폼-->
+                <!--버튼-->
+                <div class="reply-actions">
+                    <button type="button" class="btn btn-primary"
+                            th:onclick="'toggleReplyForm(event, ' + ${comment.id} + ')'">답글</button>
+                </div>
+                <!-- 대댓글 작성폼 -->
+                <div th:id="'reply-comment-' + ${comment.id}" style="display:none;">
+                    <form th:action="@{/comment/reply/{parentId}(parentId=${comment.id})}" method="post">
+                        <input type="hidden" name="freeId" th:value="${post.id}"/>
+                        <textarea name="comment" rows="2" required placeholder="여기에 답글을 작성하세요"></textarea>
+                        <div class="reply-actions">
+                            <button type="submit" class="btn btn-primary">입력</button>
+                            <button type="button" class="btn btn-secondary" th:onclick="'toggleReplyForm(' + ${comment.id} + ')'">취소</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!--대댓글 표시-->
+                <ul th:if="${not #lists.isEmpty(comment.replies)}">
+                    <div th:each="reply : ${comment.replies}">
+                        <div class="reply-card">
+                            <span class="reply-arrow">↪</span>
+                            <p class="reply-author">♪ <span th:text="${reply.author.username}">답글 작성자</span></p>
+                            <p class="reply-content" th:text="${reply.comment}"></p>
+                            <small class="reply-date" th:text="${#temporals.format(reply.createAt, 'yyyy-MM-dd HH:mm')}">답글 작성일</small>
+                        </div>
+                        <div style="text-align: right;">
+                            <form th:action="@{/comment/delete/reply/{id}(id=${reply.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                </ul>
+                <!-- 대댓글이 없을 때의 구조를 감추고, 대댓글을 추가할 버튼과 폼만 보여줌 -->
+                <div th:if="${#lists.isEmpty(comment.replies)}">
+                    <p style="display:none;">답글이 없습니다.</p>
+                </div>
+            </div>
+        </div>
+    </ul>
+</div>
+
+<div class="post-card">
+<!--th:타임리프 @&-->
+    <form th:action="@{/comment/create/{id}(id=${post.id})}" method="post" class="comment-form">
+<!--    Controller 에서 SiteUser loggedInUser 로 받아야 하기 때문에 username 을 hidden 으로 받기-->
+        <input type="hidden" name="username" th:value="${loggedInUser.username}">
+        <div class="textarea-container">
+            <textarea name="comment" id="comment" rows="2" placeholder="댓글을 입력하세요" required></textarea>
+            <button type="submit" class="btn btn-register">등록</button>
+        </div>
+    </form>
+</div>
+
+<div class="post-card text-center">
+    <a style="text-align: center;" href="/free/list">목록으로 돌아가기</a>
+</div>
+
+<script>
+    // 수정 폼 표시
+    function editComment(event, commentId) {
+        event.preventDefault(); // 기본 동작 방지
+        const editForm = document.getElementById(`edit-comment-${commentId}`);
+
+        if (editForm) {
+            editForm.style.display = 'block'; // 수정 폼을 보이게 함
+            console.log("수정 폼이 성공적으로 표시되었습니다.");
+        } else {
+            console.error("수정 폼을 찾을 수 없습니다. ID:", `edit-comment-${commentId}`);
+        }
+    }
+
+    // 수정 폼 숨기기
+    function cancelEdit(commentId) {
+        // textarea 내용 초기화
+        document.getElementById("edit-comment-" + commentId).style.display = "none";
+        // 내용 초기화
+        document.getElementById("comment-text-" + commentId).value = "";
+    }
+
+    // 대댓글 수정폼
+    function toggleReplyForm(event, commentId) {
+        event.preventDefault(); // 기본 동작 방지
+        const replyForm = document.getElementById(`reply-comment-${commentId}`);
+
+        if (replyForm) {
+            replyForm.style.display = (replyForm.style.display === 'none' || replyForm.style.display === '') ? 'block' : 'none';
+        } else {
+            console.error("답글 폼을 찾을 수 없습니다. ID:", `reply-comment-${commentId}`);
+        }
+    }
+</script>
+
+</body>
+</html>

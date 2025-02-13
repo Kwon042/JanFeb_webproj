@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<!--<h1>Music List</h1>-->
+<!--<ul>-->
+<!--    <li th:each="file : ${files}">-->
+<!--        <span th:text="${file}"></span>-->
+<!--        <audio controls>-->
+<!--            <source th:src="@{/play/{filename}(filename=${file})}" type="audio/mpeg" />-->
+<!--            Your browser does not support the audio element.-->
+<!--        </audio>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<h2>Upload Music</h2>
+<form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+    <input type="file" name="file" required />
+    <input type="hidden" name="redirectUrl" th:value="${currentUrl}"/> <!-- 현재 URL을 동적으로 설정 -->
+    <button type="submit">Upload</button>
+</form>
+<br>
+<button type="button" th:onclick="'window.location.href=\'' + @{/free/create} + '\''">작성 중이던 게시판으로 돌아가기</button>
+
+<div th:if="${message}" th:text="${message}" style="color: green;"></div>
+<div th:if="${error}" th:text="${error}" style="color: red;"></div>
+
+</body>
+</html>

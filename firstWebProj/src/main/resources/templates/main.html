@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>뮤직 플레이리스트 공유 사이트</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<h1 class="site-title">♫ 뮤직 플레이리스트 공유 사이트 ♫</h1>
+<div class="center-container">
+    <div th:if="${loggedInUser == null || loggedInUser != null}">
+        <a href="/user/login">로그인</a>
+        <a href="/user/signup">회원가입</a>
+    </div>
+</div>
+
+</body>
+</html>

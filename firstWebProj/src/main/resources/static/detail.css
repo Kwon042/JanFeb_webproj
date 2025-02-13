@@ -1,0 +1,285 @@
+/* 기본 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.site-title {
+    font-size: 4em; /* 제목 크기 증가 */
+    text-align: center; /* 중앙 정렬 */
+    margin: 10px 0; /* 추가 여백 */
+}
+
+/* 게시글 카드 스타일 */
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.text-center {
+    text-align: center; /* 텍스트 중앙 정렬 */
+    width: 100%; /* 너비 100%로 설정 */
+}
+
+/* 제목 및 작성자 스타일 */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+h3 {
+    text-align: center;
+    font-size: 1.75em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* 링크 스타일 */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.comment-title {
+    text-align: center; /* 중앙 정렬 */
+    font-size: 1.3em; /* 글씨 크기 조정 */
+    margin-bottom: 15px; /* 아래 여백 */
+    color: #333; /* 텍스트 색상 >> 검정색 */
+}
+
+/* 댓글 및 댓글 카드 스타일 */
+.comment-card {
+    background-color: #ffffff; /* 카드 배경색 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+    padding: 15px; /* 내부 여백 */
+    margin-bottom: 15px; /* 카드 간격 */
+}
+
+.comment-author {
+    font-weight: bold; /* 작성자 이름 강조 */
+    color: #333; /* 기본 색상 */
+    margin-bottom: 5px; /* 아래 여백 */
+    font-size: 1.3em; /* 글자 크기 조정 (필요에 따라 값 조정) */
+}
+
+.comment-content {
+    margin-bottom: 10px; /* 내용과 아래 요소 사이 여백 */
+}
+
+.comment-container {
+    background-color: #FFFFFF; /* 배경색 */
+    border: 1px solid #E0E0E0; /* 경계선 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 15px; /* 내부 여백 */
+    margin-bottom: 10px; /* 댓글 간의 간격 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+.comment-text {
+    color: #333; /* 댓글 내용 색상 */
+    font-size: 1.2em; /* 글씨 크기 */
+}
+
+.comment-date {
+    color: #777; /* 날짜 색상 */
+    font-size: 0.6em; /* 작은 글씨 */
+}
+
+/* 댓글 수정 폼 스타일 */
+.edits-comment-form {
+    margin-top: 10px; /* 폼 상단 여백 */
+}
+
+#edit-comment-${comment.id} {
+    display: none; /* 기본적으로 숨겨져 있어야 함 */
+}
+
+.comment-form {
+    margin-top: 20px; /* 위쪽 여백 */
+    margin-bottom: 10px;
+}
+
+.textarea-container {
+    display: flex; /* 수평으로 배치 */
+    align-items: flex-start; /* align items to start */
+}
+
+/* 댓글 입력 및 크기 조절 비활성화 */
+textarea {
+    width: 100%; /* 가로 폭 100% */
+    padding: 10px; /* 패딩 추가 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 0px; /* 모서리 둥글게 */
+    resize: none; /* 크기 조절 비활성화 */
+}
+
+/* 버튼 스타일 */
+.btn {
+    padding: 10px 15px; /* 수직 패딩을 동일하게 설정 */
+    border: 2px solid; /* 테두리 색상 유지 */
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    background-color: #007bff; /* 기본 버튼 색상 */
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+/*등록 버튼 따로 관리*/
+.btn-register {
+    padding: 10px 15px; /* 버튼 패딩 */
+    border: 2px solid #007bff; /* 파란색 테두리 */
+    background-color: 007bff; /* 배경색 투명 */
+    color: #ffffff; /* 글씨 색상 */
+    border-radius: 0; /* 모서리 둥글지 않게 설정 */
+    cursor: pointer; /* 커서 변경 */
+    transition: background-color 0.3s, color 0.3s; /* 전환 효과 */
+    display: inline-block; /* 인라인 블록으로 표시 */
+    vertical-align: middle; /* 세로 정렬 문제 방지 */
+}
+
+.btn-register:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* 마우스 오버 시 배경 색상 변경 */
+}
+
+/* 수정 버튼 스타일 */
+.btn-warning {
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+    border: 2px solid #ffc107; /* 경고 버튼의 테두리 색상 설정 */
+    color: #ffc107; /* 글씨 색상 그대로 유지 */
+    padding: 6px 10px; /* 패딩 줄이기 -> 버튼 크기 줄이기 (세로 가로) */
+    border-radius: 5px; /* 둥근 모서리 */
+    transition: background-color 0.3s, color 0.3s; /* 전환 효과 */
+    margin-right: 10px; /* 삭제 버튼과의 간격 */
+}
+
+.btn-warning:hover {
+    background-color: rgba(255, 193, 7, 0.1); /* 호버 시 배경색 변화 */
+    color: #c69500; /* 호버 시 글씨 색상 변경 */
+}
+
+/* 삭제 버튼 스타일 */
+.btn-danger {
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+    border: 2px solid #dc3545; /* 삭제 버튼의 테두리 색상 설정 */
+    color: #dc3545; /* 글씨 색상 그대로 유지 */
+    padding: 6px 10px; /* 패딩 줄이기 */
+    border-radius: 5px; /* 둥근 모서리 */
+    transition: background-color 0.3s, color 0.3s; /* 전환 효과 */
+}
+
+.btn-danger:hover {
+    background-color: rgba(220, 53, 69, 0.1); /* 호버 시 배경색 변화 */
+    color: #c82333; /* 호버 시 글씨 색상 변경 */
+}
+
+/* 댓글 액션 버튼 스타일 */
+.comment-actions {
+    display: flex; /* 플렉스 박스로 정렬 */
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    margin-top: 10px; /* 버튼과 내용 사이 여백 */
+}
+
+.reply-card {
+    border-left: 2px solid #ccc; /* 왼쪽에 선 추가 */
+    padding-left: 10px;         /* 여백 추가 */
+    margin: 10px 0;            /* 위아래 여백 */
+    background-color: #f9f9f9;  /* 배경 색상 추가 */
+    border-radius: 5px; /* 모서리 둥글게 */
+
+}
+
+.reply-arrow {
+    display: block;               /* 블록 형태로 표시 */
+    font-size: 16px;             /* 화살표 크기 설정 (필요에 따라 조절) */
+    color: #555;                 /* 화살표 색상 설정 (선택적으로) */
+}
+
+.reply-actions {
+    display: flex; /* 수평 배치 */
+    margin-top: 10px; /* 버튼과 내용 사이 여백 */
+}
+
+.reply-author {
+    font-weight: bold; /* 작성자 이름 강조 */
+    margin-bottom: 3px; /* 아래 여백 */
+    font-size: 1em; /* 글자 크기 조정 (필요에 따라 값 조정) */
+}
+
+.reply-comments {
+    margin-top: 10px; /* 댓글 폼과 버튼 간의 간격 */
+    margin-bottom: 10px; /* 버튼 아래 여백 추가 */
+}
+
+.reply-date {
+    color: #777; /* 날짜 색상 */
+    font-size: 0.5em; /* 작은 글씨 */
+}
+
+.reply-content {
+    color: #333; /* 댓글 내용 색상 */
+    font-size: 0.8em; /* 글씨 크기 */
+}
+
+.reply-comments textarea {
+    width: 100%; /* 가로 폭 100% */
+    padding: 10px; /* 패딩 추가 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 0px; /* 모서리 둥글게 */
+    resize: none; /* 크기 조절 비활성화 */
+}
+
+/* 댓글 달기 버튼 스타일 */
+.btn-primary {
+    color: #000; /* 글씨 색상: 파란색 */
+    border: 2px solid #ccc; /* 테두리 색상: 파란색 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+    padding: 6px 10px; /* 패딩 추가 */
+    border-radius: 5px; /* 둥글게 */
+    text-decoration: none; /* 기본 링크 스타일 제거 */
+    transition: background-color 0.3s, color 0.3s; /* 전환 효과 */
+}
+
+.btn-primary:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* 마우스 오버 시 색상 변경 */
+    color: #000; /* 호버 시 글씨 색상 유지 */
+}
+
+/* 취소 버튼 스타일 */
+.btn-secondary {
+    color: #dc3545; /* 취소 버튼 글씨 색상 */
+    border-color: #dc3545; /* 테두리 색상 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+}
+
+.btn-secondary:hover {
+    background-color: rgba(220, 53, 69, 0.1); /* 마우스 오버 시 색상 변경 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+    }
+}

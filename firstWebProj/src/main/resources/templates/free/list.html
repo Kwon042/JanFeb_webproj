@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>뮤직 플레이리스트 공유 게시판</title>
+    <link rel="stylesheet" href="/list.css">
+    <script>
+        function confirmLogout() {
+            return confirm("로그아웃 하시겠습니까?");
+        }
+    </script>
+</head>
+<body>
+<h1 class="site-title">🎧 뮤직 플레이리스트 공유 사이트 🎧</h1>
+
+<div class="icon-container">
+    <div class="icon-box">
+        <a href="/">메인 페이지로 돌아가기</a>
+    </div>
+    <div class="logout-box">
+        <a href="/user/logout" onclick="return confirmLogout();">로그아웃</a>
+    </div>
+</div>
+
+<div th:if="${loggedInUser == null}">
+    <p>글 쓰기는 로그인이 필요합니다.</p>
+    <p>로그인 페이지로 돌아가기 <a href="/user/login">로그인</a></p>
+</div>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일</th>
+            <th>작성자</th>
+            <th>관리자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post, stat : ${posts}">
+            <td th:text="${stat.count}">1</td>
+            <td>
+                <a th:href="@{/free/detail/{id}(id=${post.id})}" th:text="${post.title}">제목</a>
+            </td>
+            <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+            <td th:text="${post.author.username}">작성자</td>
+            <td><div th:if="${loggedInUser != null and loggedInUser.role.name() == 'ADMIN'}">
+                <a th:href="@{/free/delete/{id}(id=${post.id})}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                </div>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(posts)}">
+            <td colspan="4">게시글이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="icon-container">
+    <div class="icon-box create-box">
+        <a href="/free/create">글 쓰기</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>글 작성</title>
+    <link rel="stylesheet" href="/create.css">
+</head>
+<body>
+<h1 style="text-align: center;">뮤직 플레이리스트 공유 사이트</h1>
+
+<form action="/free/create" method="post" enctype="multipart/form-data">
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" th:value="${tempTitle}" required />
+
+    <label for="content">내용</label>
+    <textarea id="content" name="content" placeholder="내용을 입력하세요" th:text="${tempContent}" required></textarea>
+
+    <label for="file">파일 업로드</label>
+    <input type="file" id="file" name="file" />
+
+    <button type="submit">작성 완료</button>
+</form>
+<!--이전에 작성 중이던 제목과 내용 보여지게-->
+<div th:if="${uploadError}" th:text="${uploadError}" style="color: red;"></div>
+
+</body>
+</html>
