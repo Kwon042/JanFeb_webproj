@@ -50,8 +50,9 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;  //parentComment >> 대댓글
 
+    //대댓글 관리
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> replies = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
 
     //댓글수정
     public void edit(String comment) {

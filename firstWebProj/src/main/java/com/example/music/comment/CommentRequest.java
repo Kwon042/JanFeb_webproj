@@ -16,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class CommentRequest {
     private Long id;
+    // 댓글 내용을 반환하는 메서드
+    @Getter
     private String comment;
     private String author;
     //게시글Id

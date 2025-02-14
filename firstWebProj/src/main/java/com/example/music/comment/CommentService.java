@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final FreeRepository freeRepository;
     private final FreeService freeService;
+    private final ReplyRepository replyRepository;
 
     //댓글 저장
     //사용자 -> 게시글 -> 댓글의 정보 확인
@@ -95,6 +97,7 @@ public class CommentService {
         if (!comment.getAuthor().getUsername().equals(loggedInUser)) {
             throw new IllegalArgumentException("댓글 삭제 권한이 없습니다.");
         }
+        //댓글 삭제 >>  cascade 설정으로 대댓글 자동 삭제
         commentRepository.delete(comment);
     }
 
@@ -108,8 +111,8 @@ public class CommentService {
     }
 
     //대댓글 저장
-    //User 존재 체크 -> Free 존재 체크 -> 부모 댓글 존재 체크
-    public Comment saveReply(Long parentId, CommentRequest request, String userName) {
+    //user 존재 체크 -> Free 존재 체크 -> 부모 댓글 존재 체크
+    public Reply saveReply(Long parentId, CommentRequest request, String userName) {
         SiteUser user = userRepository.findByUsername(userName);
         if (user == null) {
             throw new IllegalArgumentException("사용자가 존재하지 않습니다: " + userName);
@@ -121,36 +124,40 @@ public class CommentService {
         Comment parentComment = commentRepository.findById(parentId)
                 .orElseThrow(() -> new IllegalArgumentException("부모 댓글이 존재하지 않습니다: " + parentId));
 
-        //윗 댓글 설정
-        Comment comment = new Comment();
-        comment.setAuthor(user);
-        comment.setComment(request.getComment());
-        //대댓글 세팅
-        comment.setParentComment(parentComment);
-        comment.setCreateAt(LocalDateTime.now());
-        comment.setUpdateAt(LocalDateTime.now());
+        //대댓글 객체 생성
+        Reply reply = new Reply();
+        reply.setAuthor(user);
+        //대댓글이 부모 댓글을 참조하도록 설정
+        reply.setParentComment(parentComment);
+        reply.setContent(request.getComment());
+        reply.setCreateAt(LocalDateTime.now());
+        reply.setUpdateAt(LocalDateTime.now());
 
         //대댓글을 부모 댓글의 replies 리스트에 추가 >> 없으면 초기화
         if (parentComment.getReplies() == null) {
             parentComment.setReplies(new ArrayList<>());
         }
-        //대댓글을 윗 댓글의 replies 리스트에 추가
-        parentComment.getReplies().add(comment);
+        parentComment.getReplies().add(reply);
+        //대댓글 mysql 저장
+        replyRepository.save(reply);
+        //부모댓 mysql 업데이트 (대댓글이 추가되었으니까)
+        commentRepository.save(parentComment);
 
-        return commentRepository.save(comment);
+        return reply;
     }
 
-    //대댓글 삭제(댓글 삭제와 분리)
-    public void deleteReply(Long replyId, String loggedInUser) {
-        Comment reply = commentRepository.findById(replyId)
-                .orElseThrow(() -> new IllegalArgumentException("대댓글이 존재하지 않습니다: " + replyId));
-
-        if (!reply.getAuthor().getUsername().equals(loggedInUser)) {
-            throw new IllegalArgumentException("대댓글 삭제 권한이 없습니다.");
-        }
-
-        commentRepository.delete(reply);
-    }
+//    //대댓글 삭제(댓글 삭제와 분리)
+//    public void deleteReply(Long replyId, String loggedInUser) {
+//
+//        Reply reply = replyRepository.findById(replyId)
+//                .orElseThrow(() -> new IllegalArgumentException("대댓글이 존재하지 않습니다: " + replyId));
+//
+//        if (!reply.getAuthor().getUsername().equals(loggedInUser)) {
+//            throw new IllegalArgumentException("대댓글 삭제 권한이 없습니다.");
+//        }
+//        //대댓글 삭제
+//        replyRepository.delete(reply);
+//    }
 
 
 }

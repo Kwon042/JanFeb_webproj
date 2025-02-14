@@ -122,8 +122,15 @@ public class FreeController {
 
         //댓글 리스트를 가져오기
         List<Comment> comments = commentRepository.findByFree(post);
+
+        System.out.println("Comments loaded: " + comments.size()); // 콘솔에 댓글 수 확인
+        for (Comment comment : comments) {
+            System.out.println("Comment ID: " + comment.getId() + ", Replies: " + comment.getReplies().size());
+        }
+
         model.addAttribute("post", post);
-        model.addAttribute("comments", comments); // 댓글 목록을 모델에 추가
+        //댓글 목록을 모델에 추가
+        model.addAttribute("comments", comments);
 
         //게시글에 업로드된 파일 리스트 가져오기
         List<String> uploadedFiles = post.getFileNames();

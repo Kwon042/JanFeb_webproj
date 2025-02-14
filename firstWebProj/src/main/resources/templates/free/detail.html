@@ -33,11 +33,12 @@
 
 <div class="post-card" th:if="${loggedInUser != null}">
     <div th:if="${post.author != null and loggedInUser.id == post.author.id}">
-        <a th:href="@{/free/update/{id}(id=${post.id})}">수정</a>
-        <a th:href="@{/free/delete/{id}(id=${post.id})}"
+        <a class="btn btn-warning" th:href="@{/free/update/{id}(id=${post.id})}">수정</a>
+        <a class="btn btn-danger" th:href="@{/free/delete/{id}(id=${post.id})}"
            onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
     </div>
-    <div th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'Role.ADMIN'}">
+    <div class="btn-danger-transparent"
+         th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'ADMIN'}">
         <a th:href="@{/free/delete/{id}(id=${post.id})}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제 (Admin)</a>
     </div>
 </div>
@@ -46,31 +47,30 @@
     <h4 class="comment-title" th:text="'댓글 ' + ${#lists.size(comments)}"></h4>
     <ul>
         <!-- 댓글이 없을 때 문구 추가 -->
-        <p th:if="${#lists.isEmpty(comments)}">댓글이 없습니다.</p>
+        <p class="comment-card empty" th:if="${#lists.isEmpty(comments)}">댓글이 없습니다.</p>
         <div th:each="comment : ${comments}">
             <div class="comment-card">
                 <p class="comment-author">♬ <span th:text="${comment.author.username}">작성자</span></p>
                 <p class="comment-content" th:text="${comment.comment}"></p>
                 <small class="comment-date" th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}">작성일</small>
 
-                <!-- 댓글 작성자와 로그인한 사용자가 동일할 경우 수정 / 삭제 버튼 보임 -->
-                <div class="comment-actions" th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'Role.ADMIN'}">
-                    <!--<button type="button" class="btn btn-warning" onclick="editComment(${comment.id})">수정 원본</button>-->
-                    <button type="button" class="btn btn-warning"
-                            th:onclick="'editComment(event, ' + ${comment.id} + ')'">수정</button>
-                    <form th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-                    </form>
+                <!-- user: 수정 / 삭제 버튼 보임 -->
+                <div class="comment-actions"
+                     th:if="${loggedInUser != null and loggedInUser.id == post.author.id}">
+                    <div th:if="${loggedInUser.id == comment.author.id}">
+                        <button type="button" class="btn btn-warning"
+                                th:onclick="'editComment(event, ' + ${comment.id} + ')'">수정</button>
+                        <form th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+                        </form>
+                    </div>
+                    <!-- admin: 삭제 버튼만 -->
+                    <div th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'ADMIN'}">
+                        <form th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+                        </form>
+                    </div>
                 </div>
-
-                <!-- 댓글 수정을 원할 시에 그 화면에서 댓글 수정이 이루어지게
-                <div id="edit-comment-${comment.id}" style="display:none;">
-                    <form th:action="@{/comment/edit/{commentId}(commentId=${comment.id})}" method="post" class="edits-comment-form">
-                        <textarea name="comment" id="comment-text-${comment.id}" rows="4" required th:text="${comment.comment}"></textarea>
-                        <button type="submit" class="btn btn-outline-primary">수정 완료</button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="cancelEdit(${comment.id})">취소</button>
-                    </form>
-                </div> -->
 
                 <div th:id="'edit-comment-' + ${comment.id}" style="display:none;">
                     <form th:action="@{/comment/edit/{commentId}(commentId=${comment.id})}" method="post" class="edits-comment-form">
@@ -101,19 +101,28 @@
 
                 <!--대댓글 표시-->
                 <ul th:if="${not #lists.isEmpty(comment.replies)}">
-                    <div th:each="reply : ${comment.replies}">
+                    <li th:each="reply : ${comment.replies}">
                         <div class="reply-card">
                             <span class="reply-arrow">↪</span>
-                            <p class="reply-author">♪ <span th:text="${reply.author.username}">답글 작성자</span></p>
-                            <p class="reply-content" th:text="${reply.comment}"></p>
+                            <p class="reply-author">♪ <span th:text="${reply.author != null ? reply.author.username : '작성자 없음'}">답글 작성자</span></p>
+                            <p class="reply-content" th:text="${reply.content}"></p>
                             <small class="reply-date" th:text="${#temporals.format(reply.createAt, 'yyyy-MM-dd HH:mm')}">답글 작성일</small>
                         </div>
                         <div style="text-align: right;">
-                            <form th:action="@{/comment/delete/reply/{id}(id=${reply.id})}" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-                            </form>
+                            <!-- 작성자: 삭제 버튼 -->
+                            <div th:if="${reply.author.username == loggedInUser.username}">
+                                <form th:action="@{/comment/delete/reply/{id}(id=${reply.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">답글 삭제</button>
+                                </form>
+                            </div>
+                            <!-- 관리자: 삭제 버튼 -->
+                            <div th:if="${loggedInUser.role != null and loggedInUser.role.name() == 'ADMIN'}">
+                                <form th:action="@{/comment/delete/reply/{id}(id=${reply.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">답글 삭제 (Admin)</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    </li>
                 </ul>
                 <!-- 대댓글이 없을 때의 구조를 감추고, 대댓글을 추가할 버튼과 폼만 보여줌 -->
                 <div th:if="${#lists.isEmpty(comment.replies)}">

@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.util.Optional;
+
 
 
 @RequiredArgsConstructor
@@ -19,9 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/comment")
 public class CommentController {
     private final CommentService commentService;
-    @Autowired
     private final FreeService freeService;
-    private CommentController commenetService;
+    private final ReplyRepository replyRepository;
 
     //댓글 생성
     @PostMapping("/create/{id}")
@@ -40,8 +40,8 @@ public class CommentController {
 
     @PostMapping("/delete/{id}")
     public String deleteComment(@PathVariable Long id, HttpSession session) {
-
         SiteUser loggedInUser = (SiteUser) session.getAttribute("loggedInUser");
+
         //로그인되지 않은 사용자는 로그인 페이지로 리다이렉트
         if (loggedInUser == null) {
             return "redirect:/login";
@@ -150,40 +150,39 @@ public class CommentController {
 
     //대댓글 삭제
     @PostMapping("/delete/reply/{id}")
-    public String deleteReply(@PathVariable("id") Long id, HttpSession session) {
+    public String deleteReply(@PathVariable("id") Long replyId, HttpSession session) {
         SiteUser loggedInUser = (SiteUser) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
             return "redirect:/login";
         }
 
-        //게시글 ID를 저장할 변수 >> null이면 오류 남
-        Long postId = 1L;
-
         try {
-            //대댓글이 속한 게시글 ID
-            Comment reply = commentService.findById(id);
-            if (reply == null) {
-                throw new IllegalArgumentException("답글을 찾을 수 없습니다.");
-            }
-            //권한
+            //대댓글 조회
+            Reply reply = replyRepository.findById(replyId)
+                    .orElseThrow(() -> new IllegalArgumentException("답글을 찾을 수 없습니다."));
+
+            //권한 체크
             if (!reply.getAuthor().getId().equals(loggedInUser.getId())) {
                 throw new SecurityException("삭제 권한이 없습니다.");
             }
-            // 대댓글이 속한 게시글 확인
-            if (reply.getFree() == null) {
+
+            //대댓글이 속한 부모 댓글의 게시글 ID 추출
+            //대댓글의 부모 댓글
+            Comment parentComment = reply.getParentComment();
+            if (parentComment == null || parentComment.getFree() == null) {
                 throw new IllegalArgumentException("대댓글이 속한 게시글을 찾을 수 없습니다.");
             }
-            //대댓글이 속해 있는 게시글 ID
-            postId = reply.getFree().getId();
+
             //대댓글 삭제
-            commentService.delete(id, loggedInUser.getUsername());
+            replyRepository.delete(reply);
+
+            //부모 댓글로 리다이렉트
+            return "redirect:/free/detail/" + parentComment.getFree().getId();
         } catch (IllegalArgumentException e) {
             System.out.println("댓글 삭제 오류: " + e.getMessage());
-            return "redirect:/free/detail/" + postId;
+            return "redirect:/error"; // 또는 적절한 에러 페이지로 리다이렉트
         }
-
-        return "redirect:/free/detail/" + postId;
     }
 
 }
