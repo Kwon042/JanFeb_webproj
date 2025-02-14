@@ -11,12 +11,14 @@
 <h1 class="site-title">🎧 뮤직 플레이리스트 공유 사이트 🎧</h1>
 
 <div class="post-card">
-    <h3 style="text-align: center;" th:text="${post.title}">제목: </h3>
-    <p><strong>작성자:</strong> <span th:text="${post.author.username}">작성자</span></p>
-    <p><strong>작성일:</strong> <span th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">작성일</span></p>
-    <p><strong>내용:</strong> <span th:text="${post.content}">내용</span></p>
+    <p class="post-title">TITLE &nbsp;&nbsp;<span th:text="${post.title}">TITLE</span></p>
+    <p>DATE &nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">작성일</span></p>
+    <p><strong>NAME &nbsp;&nbsp;</strong> <span th:text="${post.author.username}">작성자</span></p>
+    <p class="post-content">
+        <span th:text="${post.content}">내용</span>
+    </p>
 
-    <p><strong>업로드한 파일:</strong></p>
+    <p>FILE</p>
     <ul>
 <!--    파일의 유뮤: 유 >>-->
         <li th:each="file : ${uploadedFiles}">

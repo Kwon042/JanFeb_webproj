@@ -27,6 +27,24 @@ body {
     padding: 20px;
     margin-bottom: 20px;
 }
+
+.post-title {
+    font-size: 20px; /* 큰 글자 크기 */
+    font-weight: bold; /* 글자 굵게 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    padding-right: 20px; /* 우측 패딩 추가 */
+    border-bottom: 1px solid #ddd; /* 필요시 밑줄 추가 */
+}
+
+.post-content {
+    border-top: 2px solid #999; /* 빨간 색상으로 위 줄 그리기 */
+    border-bottom: 2px solid #999; /* 빨간 색상으로 아래 줄 그리기 */
+    padding: 15px 0; /* 위아래 간격 추가 */
+    margin: 10px 0; /* 상하 간격 추가 */
+    font-size: 16px; /* 글자 크기 */
+    line-height: 1.5; /* 줄 간격 */
+}
+
 .text-center {
     text-align: center; /* 텍스트 중앙 정렬 */
     width: 100%; /* 너비 100%로 설정 */
@@ -37,13 +55,6 @@ h1 {
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 20px;
-}
-
-h3 {
-    text-align: center;
-    font-size: 1.75em;
-    color: #555;
-    margin-bottom: 15px;
 }
 
 /* 링크 스타일 */
