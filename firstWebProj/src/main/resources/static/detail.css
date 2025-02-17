@@ -50,6 +50,13 @@ body {
     width: 100%; /* 너비 100%로 설정 */
 }
 
+.no-files-message {
+    font-style: italic; /* 기울임 */
+    color: gray; /* 회색 */
+    text-align: center; /* 중앙 정렬 */
+    margin: 20px 0; /* 위 아래 여백 추가 */
+}
+
 /* 제목 및 작성자 스타일 */
 h1 {
     text-align: center;

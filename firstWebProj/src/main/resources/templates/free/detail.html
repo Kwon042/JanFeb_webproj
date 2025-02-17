@@ -29,7 +29,7 @@
             </audio>
         </li>
 <!--    파일의 유무: 무 >>-->
-        <p th:if="${#lists.isEmpty(uploadedFiles)}">**업로드된 파일이 없습니다.</p>
+        <p class="no-files-message" th:if="${#lists.isEmpty(uploadedFiles)}">업로드된 파일이 없습니다.</p>
     </ul>
 </div>
 
